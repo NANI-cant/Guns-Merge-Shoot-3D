@@ -10,9 +10,23 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: a2bc298c3da9406f907ac4552cb4d44b, type: 3}
-  m_Name: Level1
+  m_Name: Level3
   m_EditorClassIdentifier: 
   <Waves>k__BackingField:
+  - <EnemyDataset>k__BackingField:
+    - Enemy: 0
+      Count: 3
+    - Enemy: 1
+      Count: 3
+    - Enemy: 2
+      Count: 1
+  - <EnemyDataset>k__BackingField:
+    - Enemy: 0
+      Count: 3
+    - Enemy: 1
+      Count: 3
+    - Enemy: 2
+      Count: 1
   - <EnemyDataset>k__BackingField:
     - Enemy: 0
       Count: 3

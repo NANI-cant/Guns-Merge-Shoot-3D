@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace Metric.Levels {
     [CreateAssetMenu(fileName = "LevelData", menuName = "Levels/Level Data")]

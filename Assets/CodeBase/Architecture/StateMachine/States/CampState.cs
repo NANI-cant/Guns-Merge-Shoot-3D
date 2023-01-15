@@ -11,6 +11,7 @@ namespace Architecture.StateMachine.States {
         private readonly IUIFactory _uiFactory;
         private readonly IDestroyProvider _destroyProvider;
         private readonly PlayerPointer _playerPointer;
+        private readonly LevelProgress _levelProgress;
 
         private CampUI _campUI;
 
@@ -18,15 +19,18 @@ namespace Architecture.StateMachine.States {
             GameStateMachine gameStateMachine,
             IUIFactory uiFactory,
             IDestroyProvider destroyProvider,
-            PlayerPointer playerPointer
+            PlayerPointer playerPointer,
+            LevelProgress levelProgress
         ) {
             _gameStateMachine = gameStateMachine;
             _uiFactory = uiFactory;
             _destroyProvider = destroyProvider;
             _playerPointer = playerPointer;
+            _levelProgress = levelProgress;
         }
         
         public override void Enter() {
+            _levelProgress.NextLevel();
             _campUI = _uiFactory.CreateCampUI().GetComponent<CampUI>();
             _campUI.FightButtonClicked += TranslateToFight;
             _playerPointer.Player.StateMachine.TranslateTo<IdleState>();

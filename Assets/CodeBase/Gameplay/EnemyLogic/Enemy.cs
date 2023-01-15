@@ -33,6 +33,6 @@ namespace Gameplay.EnemyLogic {
         private void OnEnable() => _health.Died += SelfDestroy;
         private void OnDisable() => _health.Died -= SelfDestroy;
 
-        private void SelfDestroy() => Destroy(gameObject);
+        private void SelfDestroy(Health health) => Destroy(gameObject);
     }
 }

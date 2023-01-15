@@ -12,7 +12,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a2bc298c3da9406f907ac4552cb4d44b, type: 3}
   m_Name: Level2
   m_EditorClassIdentifier: 
-  <Wave>k__BackingField:
-    <Packs>k__BackingField:
-    - <EnemyIds>k__BackingField: 0000000001000000000000000200000001000000
-    - <EnemyIds>k__BackingField: 00000000010000000000000000000000010000000100000000000000
+  <Waves>k__BackingField:
+  - <EnemyDataset>k__BackingField:
+    - Enemy: 0
+      Count: 3
+    - Enemy: 1
+      Count: 3
+    - Enemy: 2
+      Count: 1
+  - <EnemyDataset>k__BackingField:
+    - Enemy: 0
+      Count: 3
+    - Enemy: 1
+      Count: 3
+    - Enemy: 2
+      Count: 1

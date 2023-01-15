@@ -14,19 +14,19 @@ namespace Architecture.StateMachine {
         
         protected override Dictionary<Type, State> States => _states;
 
-        public GameStateMachine(
-            IGameplayFactory gameplayFactory,
+        public GameStateMachine(IGameplayFactory gameplayFactory,
             IPlayerSpawnPoint playerSpawnPoint,
             IUIFactory uiFactory,
-            IDestroyProvider destroyProvider, 
+            IDestroyProvider destroyProvider,
             EnemySpawnService enemySpawnService,
-            PlayerPointer playerPointer
+            PlayerPointer playerPointer, 
+            LevelProgress levelProgress
         ) {
             _states = new Dictionary<Type, State>() {
                 [typeof(InitializeState)] = new InitializeState(this, gameplayFactory, playerSpawnPoint, playerPointer),
-                [typeof(CampState)] = new CampState(this, uiFactory, destroyProvider, playerPointer),       
-                [typeof(FightState)] = new FightState(this, enemySpawnService, playerPointer),
-                [typeof(TransitionState)] = new TransitionState(),
+                [typeof(CampState)] = new CampState(this, uiFactory, destroyProvider, playerPointer, levelProgress),       
+                [typeof(FightState)] = new FightState(this, enemySpawnService, playerPointer, levelProgress),
+                [typeof(TransitionState)] = new TransitionState(this),
                 [typeof(LoseState)] = new LoseState(),
             };
         }

@@ -24,6 +24,8 @@ namespace Architecture.Bootstrappers {
 
             BindService<EnemySpawnService>();
             BindService<PlayerPointer>();
+            
+            BindService<LevelProgress>();
         }
 
         private void BindPlayerSpawnPoint() {
