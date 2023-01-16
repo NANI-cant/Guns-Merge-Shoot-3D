@@ -26,7 +26,7 @@ namespace Architecture.StateMachine {
                 [typeof(InitializeState)] = new InitializeState(this, gameplayFactory, playerSpawnPoint, playerPointer),
                 [typeof(CampState)] = new CampState(this, uiFactory, destroyProvider, playerPointer, levelProgress),       
                 [typeof(FightState)] = new FightState(this, enemySpawnService, playerPointer, levelProgress),
-                [typeof(TransitionState)] = new TransitionState(this),
+                [typeof(TransitionState)] = new TransitionState(this, levelProgress),
                 [typeof(LoseState)] = new LoseState(),
             };
         }

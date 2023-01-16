@@ -34,7 +34,7 @@ namespace Architecture.Services.Factories.Impl {
 
             player.GetComponent<AutoAttacker>().Construct(1, metric.AttackRadius, 10, _timeProvider);
             player.GetComponent<Health>().Construct(metric.MaxHealth);
-            player.GetComponent<CharacterAnimator>();
+            player.GetComponent<CharacterAnimator>().AttackSpeed = 1;
 
             _player = player.GetComponent<Player>();
             return player;
@@ -46,7 +46,8 @@ namespace Architecture.Services.Factories.Impl {
 
             enemy.GetComponent<Mover>().Construct(metric.MovementSpeed, metric.AttackRadius, _player.transform, _timeProvider);
             enemy.GetComponent<Health>().Construct(metric.MaxHealth);
-            enemy.GetComponent<AutoAttacker>().Construct(1, metric.AttackRadius, metric.Damage, _timeProvider);
+            enemy.GetComponent<AutoAttacker>().Construct(1/metric.AttackSpeed, metric.AttackRadius, metric.Damage, _timeProvider);
+            enemy.GetComponent<CharacterAnimator>().AttackSpeed = metric.AttackSpeed;
             
             return enemy;
         }

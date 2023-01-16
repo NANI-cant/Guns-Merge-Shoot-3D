@@ -12,6 +12,7 @@ namespace Architecture.Services.Gameplay {
 
         public WaveData WaveData => _levelData.Waves[_waveNumber];
         public int WaveCount => _levelData.Waves.Length;
+        public bool IsLevelOver => _waveNumber == WaveCount;
 
         public LevelProgress(IMetricProvider metricProvider) {
             _metricProvider = metricProvider;

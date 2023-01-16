@@ -148,6 +148,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _animator: {fileID: 5234736901332802776}
+  _attackClipLength: 1.333
 --- !u!114 &5759922306194728143
 MonoBehaviour:
   m_ObjectHideFlags: 0
