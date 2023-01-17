@@ -11,6 +11,7 @@ namespace Gameplay.PlayerLogic.Weapons {
         private CharacterAnimator _characterAnimator;
         private IInstantiateProvider _instantiateProvider;
         private Dictionary<int, GameObject> _cashedWeapons = new();
+        private GameObject _activeWeapon;
 
         private void Awake() {
             _characterAnimator = GetComponent<CharacterAnimator>();
@@ -23,10 +24,17 @@ namespace Gameplay.PlayerLogic.Weapons {
 
         public void SetWeapon(WeaponData weaponData) {
             var weapon = CashWeapon(weaponData);
-            weapon.SetActive(true);
+            SwitchWeapon(weapon);
+
             _autoAttacker.Setup(weaponData.Damage, 1 / weaponData.Speed, weaponData.CritChance, weaponData.CritValue);
             _characterAnimator.Controller = weaponData.AnimatorController;
             _characterAnimator.AttackSpeed = weaponData.Speed;
+        }
+
+        private void SwitchWeapon(GameObject weapon) {
+            _activeWeapon?.SetActive(false);
+            _activeWeapon = weapon;
+            _activeWeapon.SetActive(true);
         }
 
         private GameObject CashWeapon(WeaponData weaponData) {
