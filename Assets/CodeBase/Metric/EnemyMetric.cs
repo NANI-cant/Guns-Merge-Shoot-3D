@@ -5,7 +5,7 @@ namespace Metric {
     public class EnemyMetric: ScriptableObject {
         [field: SerializeField] public float MovementSpeed { get; private set; }
         [field: SerializeField] public float AttackSpeed { get; private set; }
-        [field: SerializeField] public float Damage { get; private set; }
+        [field: SerializeField] public int Damage { get; private set; }
         [field: SerializeField] public float AttackRadius { get; private set; }
         [field: SerializeField] public float MaxHealth { get; private set; }
 

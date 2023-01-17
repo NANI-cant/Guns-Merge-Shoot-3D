@@ -1,10 +1,11 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using Architecture.Services.AssetProviding;
 using Architecture.Services.Factories;
 using Architecture.Services.General;
 using Gameplay.HealthLogic;
 using Gameplay.Setup.SpawnPoints;
-using Gameplay.Utils;
 using Metric.Levels;
 
 namespace Architecture.Services.Gameplay {
@@ -15,6 +16,7 @@ namespace Architecture.Services.Gameplay {
         private readonly IMetricProvider _metricProvider;
 
         private int _remindedEnemies = 0;
+        private List<IEnemySpawnPoint> _availablePoints = new();
 
         public event Action Cleared;
 
@@ -31,11 +33,20 @@ namespace Architecture.Services.Gameplay {
         public void SpawnWave(WaveEnemy[] waveEnemies) {
             foreach (var waveEnemy in waveEnemies) {
                 for (int i = 0; i < waveEnemy.Count; i++) {
-                    var randomEnemySpawn = _enemySpawnPoints[_randomService.Range(0,_enemySpawnPoints.Length)];
+                    var randomEnemySpawn = TakeSpawnPoint();
                     var enemy = _gameplayFactory.CreateEnemy(waveEnemy.Enemy, randomEnemySpawn.Position, randomEnemySpawn.Rotation);
                     Track(enemy.GetComponent<Health>());
                 }
             }
+        }
+
+        private IEnemySpawnPoint TakeSpawnPoint() {
+            if (_availablePoints.Count == 0) _availablePoints = _enemySpawnPoints.ToList();
+            
+            int chosenIndex = _randomService.Range(0, _availablePoints.Count);
+            var randomEnemySpawn = _availablePoints[chosenIndex];
+            _availablePoints.RemoveAt(chosenIndex);
+            return randomEnemySpawn;
         }
 
         private void Track(Health health) {

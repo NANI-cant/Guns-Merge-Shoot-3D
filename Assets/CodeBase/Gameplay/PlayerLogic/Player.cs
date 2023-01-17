@@ -1,8 +1,11 @@
 ﻿using Gameplay.HealthLogic;
 using Gameplay.PlayerLogic.StateMachine;
+using Gameplay.PlayerLogic.Weapons;
 using UnityEngine;
 
 namespace Gameplay.PlayerLogic {
+    [RequireComponent(typeof(WeaponHolder))]
+    [RequireComponent(typeof(AutoAttacker))]
     public class Player: MonoBehaviour {
         private Health _health;
         private AutoAttacker _attacker;

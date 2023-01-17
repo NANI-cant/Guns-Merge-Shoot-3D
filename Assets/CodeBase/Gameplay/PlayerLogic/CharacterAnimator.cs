@@ -8,6 +8,11 @@ namespace Gameplay.PlayerLogic {
         [SerializeField] private Animator _animator;
         [SerializeField] private float _attackClipLength = 1;
 
+        public AnimatorOverrideController Controller {
+            get => _animator.runtimeAnimatorController as AnimatorOverrideController;
+            set => _animator.runtimeAnimatorController = value;
+        }
+
         public float AttackSpeed {
             get => _animator.GetFloat(AttackSpeedKey)/_attackClipLength;
             set => _animator.SetFloat(AttackSpeedKey, value * _attackClipLength);

@@ -15,23 +15,31 @@ namespace Gameplay.PlayerLogic {
         private ITimeProvider _timeProvider;
         
         private float _coolDown;
-        private float _damage;
+        private int _damage;
 
         private List<AttackTarget> _targetsQueue = new ();
         private Timer _cooldownTimer;
         private bool _isReady = true;
         private bool _isOn = true;
         private Rotator _rotator;
+        private float _critValue = 0;
+        private float _critChance = 0;
 
         private AttackTarget Target => _targetsQueue.Count > 0 ? _targetsQueue[0] : null;
 
         public event Action Attacked;
 
-        public void Construct(float coolDown, float radius, float damage, ITimeProvider timeProvider) {
-            _coolDown = coolDown;
-            _damage = damage;
+        public void Construct(float coolDown, float radius, int damage, ITimeProvider timeProvider) {
             _timeProvider = timeProvider;
             _trigger.Radius = radius;
+            Setup(damage,coolDown,0,0);
+        }
+        
+        public void Setup(int damage, float coolDown, float critChance, float critValue) {
+            _damage = damage;
+            _coolDown = coolDown;
+            _critChance = critChance;
+            _critValue = critValue;
         }
 
         private void Awake() {
