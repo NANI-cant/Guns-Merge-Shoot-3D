@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Architecture.Services.AssetProviding;
 using Architecture.Services.Factories;
 using Architecture.Services.Gameplay;
 using Architecture.Services.General;
@@ -19,11 +20,12 @@ namespace Architecture.StateMachine {
             IUIFactory uiFactory,
             IDestroyProvider destroyProvider,
             EnemySpawnService enemySpawnService,
-            PlayerPointer playerPointer, 
-            LevelProgress levelProgress
+            PlayerPointer playerPointer,
+            LevelProgress levelProgress, 
+            IMetricProvider metricProvider
         ) {
             _states = new Dictionary<Type, State>() {
-                [typeof(InitializeState)] = new InitializeState(this, gameplayFactory, playerSpawnPoint, playerPointer),
+                [typeof(InitializeState)] = new InitializeState(this, gameplayFactory, playerSpawnPoint, playerPointer, metricProvider),
                 [typeof(CampState)] = new CampState(this, uiFactory, destroyProvider, playerPointer, levelProgress),       
                 [typeof(FightState)] = new FightState(this, enemySpawnService, playerPointer, levelProgress),
                 [typeof(TransitionState)] = new TransitionState(this, levelProgress),

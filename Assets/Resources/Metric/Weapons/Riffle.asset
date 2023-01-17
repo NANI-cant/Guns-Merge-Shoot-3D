@@ -12,14 +12,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 51453f914dc7483384d0802c8ed9226d, type: 3}
   m_Name: Riffle
   m_EditorClassIdentifier: 
-  _level: 2
+  _level: 1
   _name: Riffle
   _startPrice: 200
   _image: {fileID: 0}
   _template: {fileID: 5982613502565972122, guid: d804659e095b15449b4431c110e66577, type: 3}
   _animatorController: {fileID: 22100000, guid: b944333344b029f40a27651f78e16f0c, type: 2}
-  _damage: 7
-  _speed: 2
-  _critChance: 50
+  _damage: 6
+  _speed: 3
+  _critChance: 25
   _critValue: 1.5
-  _dps: 17.5
+  _dps: 20.25

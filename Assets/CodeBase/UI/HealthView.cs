@@ -28,7 +28,8 @@ namespace Gameplay.UI {
             _slider.value = maxHealth;
         }
 
-        private void UpdateSlider() {
+        private void UpdateSlider(float damage, bool isCrit) {
+            if(isCrit) Debug.Log("Crit");
             _slider.maxValue = _trackedHealth.MaxHealth;
             _slider.value = _trackedHealth.CurrentHealth;
         }

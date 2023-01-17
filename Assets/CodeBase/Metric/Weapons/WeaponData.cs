@@ -3,7 +3,7 @@
 namespace Metric.Weapons {
     [CreateAssetMenu(fileName = "WeaponData", menuName = "Weapons/Weapon Data")]
     public class WeaponData: ScriptableObject {
-        [SerializeField][Min(1)] private int _level;
+        [SerializeField][Min(0)] private int _level;
         [Space]
         [SerializeField] private string _name;
         [SerializeField][Min(1)] private int _startPrice;

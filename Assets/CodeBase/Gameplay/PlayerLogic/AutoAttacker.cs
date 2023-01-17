@@ -13,6 +13,7 @@ namespace Gameplay.PlayerLogic {
         
         private Team _team;
         private ITimeProvider _timeProvider;
+        private IRandomService _random;
         
         private float _coolDown;
         private int _damage;
@@ -29,22 +30,31 @@ namespace Gameplay.PlayerLogic {
 
         public event Action Attacked;
 
-        public void Construct(float coolDown, float radius, int damage, ITimeProvider timeProvider) {
+        private void Awake() {
+            _team = GetComponent<TeamHolder>().Team;
+            _rotator = GetComponent<Rotator>();
+        }
+
+        public void Construct(float radius, ITimeProvider timeProvider, IRandomService randomService) {
+            _random = randomService;
+            _trigger.Radius = radius;
+            _timeProvider = timeProvider;
+
+            _coolDown = float.MaxValue;
+        }
+
+        public void Construct(float coolDown, float radius, int damage, ITimeProvider timeProvider, IRandomService randomService) {
+            _random = randomService;
             _timeProvider = timeProvider;
             _trigger.Radius = radius;
             Setup(damage,coolDown,0,0);
         }
-        
+
         public void Setup(int damage, float coolDown, float critChance, float critValue) {
             _damage = damage;
             _coolDown = coolDown;
             _critChance = critChance;
             _critValue = critValue;
-        }
-
-        private void Awake() {
-            _team = GetComponent<TeamHolder>().Team;
-            _rotator = GetComponent<Rotator>();
         }
 
         private void Update() {
@@ -69,8 +79,11 @@ namespace Gameplay.PlayerLogic {
             _trigger.Exit -= ReactTriggerExit;
         }
 
-        private void Attack(IDamageable damageable){
-            damageable.TakeDamage(_damage);
+        private void Attack(IDamageable damageable) {
+            bool isCrit = _random.ChancePercents(_critChance);
+            var appliedDamage = isCrit ? _damage * _critValue : _damage; 
+            damageable.TakeDamage(appliedDamage, isCrit);
+            
             Attacked?.Invoke();
 
             _isReady = false;

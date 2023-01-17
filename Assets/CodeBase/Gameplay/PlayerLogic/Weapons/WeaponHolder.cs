@@ -23,6 +23,7 @@ namespace Gameplay.PlayerLogic.Weapons {
 
         public void SetWeapon(WeaponData weaponData) {
             var weapon = CashWeapon(weaponData);
+            weapon.SetActive(true);
             _autoAttacker.Setup(weaponData.Damage, 1 / weaponData.Speed, weaponData.CritChance, weaponData.CritValue);
             _characterAnimator.Controller = weaponData.AnimatorController;
             _characterAnimator.AttackSpeed = weaponData.Speed;

@@ -7,20 +7,22 @@ namespace Gameplay.PlayerLogic {
     [RequireComponent(typeof(WeaponHolder))]
     [RequireComponent(typeof(AutoAttacker))]
     public class Player: MonoBehaviour {
-        private Health _health;
-        private AutoAttacker _attacker;
-        private Rotator _rotator;
-        private CharacterAnimator _animator;
+        public Health Health { get; private set; }
+        public AutoAttacker Attacker { get; private set; }
+        public Rotator Rotator { get; private set; }
+        public CharacterAnimator Animator { get; private set; }
+        public WeaponHolder WeaponHolder { get; private set; }
 
         public PlayerStateMachine StateMachine { get; private set; }
 
         private void Awake() {
-            _health = GetComponent<Health>();
-            _attacker = GetComponent<AutoAttacker>();
-            _rotator = GetComponent<Rotator>();
-            _animator = GetComponent<CharacterAnimator>();
+            Health = GetComponent<Health>();
+            Attacker = GetComponent<AutoAttacker>();
+            Rotator = GetComponent<Rotator>();
+            Animator = GetComponent<CharacterAnimator>();
+            WeaponHolder = GetComponent<WeaponHolder>();
             
-            StateMachine = new PlayerStateMachine(_health, _attacker, _rotator, _animator);
+            StateMachine = new PlayerStateMachine(Health, Attacker, Rotator, Animator);
         }
 
         private void Start() {

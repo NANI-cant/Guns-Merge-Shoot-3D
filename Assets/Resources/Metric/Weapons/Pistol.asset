@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 51453f914dc7483384d0802c8ed9226d, type: 3}
   m_Name: Pistol
   m_EditorClassIdentifier: 
-  _level: 1
+  _level: 0
   _name: Pistol
   _startPrice: 100
   _image: {fileID: 0}

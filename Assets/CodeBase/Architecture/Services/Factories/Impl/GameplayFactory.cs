@@ -3,7 +3,7 @@ using Architecture.Services.General;
 using Gameplay.EnemyLogic;
 using Gameplay.HealthLogic;
 using Gameplay.PlayerLogic;
-using Gameplay.Utils;
+using Gameplay.PlayerLogic.Weapons;
 using Metric;
 using UnityEngine;
 
@@ -13,6 +13,7 @@ namespace Architecture.Services.Factories.Impl {
         private readonly IInstantiateProvider _instantiateProvider;
         private readonly IMetricProvider _metricProvider;
         private readonly ITimeProvider _timeProvider;
+        private readonly IRandomService _randomService;
 
         private Player _player;
 
@@ -20,21 +21,23 @@ namespace Architecture.Services.Factories.Impl {
             IPrefabProvider prefabProvider,
             IInstantiateProvider instantiateProvider,
             IMetricProvider metricProvider,
-            ITimeProvider timeProvider
+            ITimeProvider timeProvider,
+            IRandomService randomService
         ) {
             _prefabProvider = prefabProvider;
             _instantiateProvider = instantiateProvider;
             _metricProvider = metricProvider;
             _timeProvider = timeProvider;
+            _randomService = randomService;
         }
         
         public GameObject CreatePlayer(Vector3 position, Quaternion rotation) {
             var metric = _metricProvider.PlayerMetric;
             var player = _instantiateProvider.Instantiate(_prefabProvider.Player, position, rotation);
 
-            player.GetComponent<AutoAttacker>().Construct(1, metric.AttackRadius, 10, _timeProvider);
+            player.GetComponent<AutoAttacker>().Construct(metric.AttackRadius, _timeProvider, _randomService);
+            player.GetComponent<WeaponHolder>().Construct(_instantiateProvider);
             player.GetComponent<Health>().Construct(metric.MaxHealth);
-            player.GetComponent<CharacterAnimator>().AttackSpeed = 1;
 
             _player = player.GetComponent<Player>();
             return player;
@@ -46,7 +49,7 @@ namespace Architecture.Services.Factories.Impl {
 
             enemy.GetComponent<Mover>().Construct(metric.MovementSpeed, metric.AttackRadius, _player.transform, _timeProvider);
             enemy.GetComponent<Health>().Construct(metric.MaxHealth);
-            enemy.GetComponent<AutoAttacker>().Construct(1/metric.AttackSpeed, metric.AttackRadius, metric.Damage, _timeProvider);
+            enemy.GetComponent<AutoAttacker>().Construct(1/metric.AttackSpeed, metric.AttackRadius, metric.Damage, _timeProvider, _randomService);
             enemy.GetComponent<CharacterAnimator>().AttackSpeed = metric.AttackSpeed;
             
             return enemy;

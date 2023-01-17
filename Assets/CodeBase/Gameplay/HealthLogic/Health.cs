@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace Gameplay.HealthLogic {
     public class Health : MonoBehaviour, IDamageable{
-        public event Action HitTaken;
+        public event Action<float, bool> HitTaken;
         public event Action<Health> Died;
 		
         public float MaxHealth { get; private set; }
@@ -15,9 +15,9 @@ namespace Gameplay.HealthLogic {
             CurrentHealth = MaxHealth;
         }
 
-        public void TakeDamage(float damage) {
+        public void TakeDamage(float damage, bool isCrit) {
             CurrentHealth -= damage;
-            HitTaken?.Invoke();
+            HitTaken?.Invoke(damage, isCrit);
 
             if (CurrentHealth <= 0) Died?.Invoke(this);
         }
