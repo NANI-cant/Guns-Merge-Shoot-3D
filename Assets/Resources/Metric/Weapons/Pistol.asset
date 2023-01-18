@@ -15,7 +15,7 @@ MonoBehaviour:
   _level: 0
   _name: Pistol
   _startPrice: 100
-  _image: {fileID: 0}
+  _image: {fileID: 21300000, guid: 36ddd9ebe5aa33f47acad780237cc564, type: 3}
   _template: {fileID: 5627777759103359877, guid: 665ab3b4251e5134a9484e78f298d104, type: 3}
   _animatorController: {fileID: 22100000, guid: efb86739541b6474f949e7afeb1dd0fa, type: 2}
   _damage: 10

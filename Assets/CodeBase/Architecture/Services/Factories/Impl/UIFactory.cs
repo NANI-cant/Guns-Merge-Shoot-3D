@@ -27,11 +27,19 @@ namespace Architecture.Services.Factories.Impl {
         public GameObject CreateCampUI() {
             var campUI = _instantiateProvider.Instantiate(_uiProvider.CampUI, Vector3.zero, Quaternion.identity);
             
+            campUI.GetComponent<CampUI>().Construct(this);
             campUI.GetComponent<CampUI>().Arsenal.Construct(this);
             
             return campUI;
         }
-        
+
+        public GameObject CreateMergeWeapon(int level, Vector3 position, Transform container) {
+            var weapon = _instantiateProvider.InstantiateUI(_uiProvider.MergeWeapon, position, container);
+
+            weapon.GetComponent<MergeWeapon>().Construct(_metricProvider.WeaponData[level]);
+
+            return weapon;
+        }
 
         public GameObject[] CreateArsenal(Transform container) {
             List<GameObject> items = new();
