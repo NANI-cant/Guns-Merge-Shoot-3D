@@ -1,4 +1,6 @@
 using Architecture.Services.General.Impl;
+using Architecture.Services.PersistentProgress.Impl;
+using Gameplay.Economic;
 using Zenject;
 
 namespace Architecture.Bootstrappers {
@@ -11,6 +13,11 @@ namespace Architecture.Bootstrappers {
 		    BindService<UnityInstantiateProvider>();
 		    BindService<UnitySceneLoadService>();
 		    BindService<UnityTimeProvider>();
+		    
+		    BindService<Bank>();
+		    
+		    BindService<PrefsSaveLoadService>();
+		    BindService<PersistentProgressService>();
 	    }
 
         private void BindService<TService>() 

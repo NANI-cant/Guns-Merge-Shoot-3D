@@ -3,7 +3,7 @@ using UI.Utils;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace UI {
+namespace UI.Arsenal {
     public class Arsenal : MonoBehaviour {
         [SerializeField] private Transform _weaponList;
         [SerializeField] private Button _closeButton;

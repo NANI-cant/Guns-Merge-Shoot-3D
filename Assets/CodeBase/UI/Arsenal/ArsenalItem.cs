@@ -4,7 +4,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace UI {
+namespace UI.Arsenal {
     public class ArsenalItem: MonoBehaviour {
         [SerializeField] private TMP_Text _name;
         [SerializeField] private TMP_Text _level;

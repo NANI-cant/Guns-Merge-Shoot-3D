@@ -1,24 +1,18 @@
 ﻿using System;
-using Architecture.Services.Factories;
 using UnityEngine;
 using UnityEngine.UI;
 
 namespace UI {
     public class CampUI: MonoBehaviour {
         [SerializeField] private Button _fightButton;
-        [SerializeField] private Transform _mergeGrid;
+        [SerializeField] private Inventory.Inventory _inventory;
         [SerializeField] private Button _arsenalButton;
-        [SerializeField] private Arsenal _arsenal;
-        
-        private IUIFactory _uiFacttory;
+        [SerializeField] private Arsenal.Arsenal _arsenal;
 
         public event Action FightButtonClicked;
 
-        public Arsenal Arsenal => _arsenal;
-
-        public void Construct(IUIFactory uiFactory) {
-            _uiFacttory = uiFactory;
-        }
+        public Arsenal.Arsenal Arsenal => _arsenal;
+        public Inventory.Inventory Inventory => _inventory;
 
         private void OnEnable() {
             _fightButton.onClick.AddListener(RaiseFightEvent);
@@ -31,11 +25,11 @@ namespace UI {
         }
 
         private void Start() {
-            for (int i = 0; i < _mergeGrid.childCount; i++) {
-                var child = _mergeGrid.GetChild(i) as RectTransform;
-                var position = child.anchoredPosition;
-                _uiFacttory.CreateMergeWeapon(0, position, child);
-            }
+            _fightButton.gameObject.SetActive(true);
+            _arsenalButton.gameObject.SetActive(true);
+            Inventory.gameObject.SetActive(true);
+            
+            Arsenal.gameObject.SetActive(false);
         }
 
         private void HandleArsenalWindow() => _arsenal.gameObject.SetActive(!_arsenal.gameObject.activeInHierarchy);

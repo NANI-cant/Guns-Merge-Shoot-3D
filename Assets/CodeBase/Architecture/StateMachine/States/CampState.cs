@@ -1,6 +1,8 @@
 ﻿using Architecture.Services.Factories;
 using Architecture.Services.Gameplay;
 using Architecture.Services.General;
+using Architecture.Services.PersistentProgress;
+using Architecture.Services.PersistentProgress.Impl;
 using Gameplay.PlayerLogic.StateMachine;
 using General.StateMachine;
 using UI;
@@ -12,6 +14,7 @@ namespace Architecture.StateMachine.States {
         private readonly IDestroyProvider _destroyProvider;
         private readonly PlayerPointer _playerPointer;
         private readonly LevelProgress _levelProgress;
+        private readonly IPersistentProgressService _persistentProgressService;
 
         private CampUI _campUI;
 
@@ -20,16 +23,19 @@ namespace Architecture.StateMachine.States {
             IUIFactory uiFactory,
             IDestroyProvider destroyProvider,
             PlayerPointer playerPointer,
-            LevelProgress levelProgress
+            LevelProgress levelProgress,
+            IPersistentProgressService persistentProgressService
         ) {
             _gameStateMachine = gameStateMachine;
             _uiFactory = uiFactory;
             _destroyProvider = destroyProvider;
             _playerPointer = playerPointer;
             _levelProgress = levelProgress;
+            _persistentProgressService = persistentProgressService;
         }
         
         public override void Enter() {
+            _persistentProgressService.Save();
             _levelProgress.NextLevel();
             _campUI = _uiFactory.CreateCampUI().GetComponent<CampUI>();
             _campUI.FightButtonClicked += TranslateToFight;

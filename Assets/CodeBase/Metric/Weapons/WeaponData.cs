@@ -6,7 +6,7 @@ namespace Metric.Weapons {
         [SerializeField][Min(0)] private int _level;
         [Space]
         [SerializeField] private string _name;
-        [SerializeField][Min(1)] private int _startPrice;
+        [SerializeField][Min(1)] private long _startPrice;
         [Space]
         [SerializeField] private Sprite _image;
         [SerializeField] private GameObject _template;
@@ -26,7 +26,7 @@ namespace Metric.Weapons {
         public float DPS => _dps;
         public GameObject Template => _template;
         public Sprite Image => _image;
-        public int StartPrice => _startPrice;
+        public long StartPrice => _startPrice;
         public string Name => _name;
         public int Level => _level;
         public AnimatorOverrideController AnimatorController => _animatorController;
