@@ -5,11 +5,11 @@ namespace Architecture.Services.PersistentProgress {
         public void Save();
         public void Load();
         
-        public void AddReader(IProgressReader reader);
-        public void RemoveReader(IProgressReader reader);
+        public void AddReader(params IProgressReader[] readers);
+        public void RemoveReader(params IProgressReader[] readers);
         
-        public void AddWriter(IProgressWriter writer);
-        public void RemoveWriter(IProgressWriter writer);
+        public void AddWriter(params IProgressWriter[] writers);
+        public void RemoveWriter(params IProgressWriter[] writers);
         IReadOnlyPlayerProgress PlayerProgress { get; }
     }
 }

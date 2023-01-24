@@ -35,11 +35,12 @@ namespace Architecture.StateMachine.States {
         }
         
         public override void Enter() {
-            _persistentProgressService.Save();
             _levelProgress.NextLevel();
+            _persistentProgressService.Save();
             _campUI = _uiFactory.CreateCampUI().GetComponent<CampUI>();
             _campUI.FightButtonClicked += TranslateToFight;
             _playerPointer.Player.StateMachine.TranslateTo<IdleState>();
+            _persistentProgressService.Load();
         }
 
         public override void Exit() {

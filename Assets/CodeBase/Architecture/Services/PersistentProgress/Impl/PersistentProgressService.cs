@@ -31,10 +31,19 @@ namespace Architecture.Services.PersistentProgress.Impl {
             }
         }
 
-        public void AddReader(IProgressReader reader) => _readers.Add(reader);
-        public void RemoveReader(IProgressReader reader) => _readers.Remove(reader);
+        public void AddReader(params IProgressReader[] readers) => _readers.AddRange(readers);
+        public void AddWriter(params IProgressWriter[] writers) => _writers.AddRange(writers);
 
-        public void AddWriter(IProgressWriter writer) => _writers.Add(writer);
-        public void RemoveWriter(IProgressWriter writer) => _writers.Remove(writer);
+        public void RemoveReader(params IProgressReader[] readers) {
+            foreach (var reader in readers) {
+                _readers.Remove(reader);    
+            }
+        }
+
+        public void RemoveWriter(params IProgressWriter[] writers) {
+            foreach (var writer in writers) {
+                _writers.Remove(writer);    
+            }
+        }
     }
 }

@@ -18,6 +18,7 @@ namespace Architecture.Bootstrappers {
 		    
 		    BindService<PrefsSaveLoadService>();
 		    BindService<PersistentProgressService>();
+		    BindService<AutoProgressSubscriber>();
 	    }
 
         private void BindService<TService>() 

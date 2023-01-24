@@ -4,9 +4,9 @@ using Architecture.Services.Gameplay;
 using Architecture.Services.General;
 using Architecture.Services.PersistentProgress;
 using Gameplay.Economic;
+using PersistentProgress;
 using UI;
 using UI.Arsenal;
-using UI.Inventory;
 using UI.Inventory.Merging;
 using UnityEngine;
 
@@ -38,8 +38,10 @@ namespace Architecture.Services.Factories.Impl {
         public GameObject CreateCampUI() {
             var campUI = _instantiateProvider.Instantiate(_uiProvider.CampUI, Vector3.zero, Quaternion.identity);
             
-            campUI.GetComponent<CampUI>().Inventory.Construct(this, _metricProvider, _playerPointer, _bank, _persistentProgressService.PlayerProgress);
+            campUI.GetComponent<CampUI>().Inventory.Construct(this, _metricProvider, _playerPointer, _bank, _persistentProgressService);
             campUI.GetComponent<CampUI>().Arsenal.Construct(this);
+            
+            SubscribeToProgress(campUI);
             
             return campUI;
         }
@@ -65,6 +67,16 @@ namespace Architecture.Services.Factories.Impl {
             }
 
             return items.ToArray();
+        }
+
+        private void SubscribeToProgress(GameObject gameObject) {
+            foreach (var reader in gameObject.GetComponentsInChildren<IProgressReader>()) {
+                _persistentProgressService.AddReader(reader);
+            }
+            
+            foreach (var writer in gameObject.GetComponentsInChildren<IProgressWriter>()) {
+                _persistentProgressService.AddWriter(writer);
+            }
         }
     }
 }

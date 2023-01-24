@@ -2,6 +2,7 @@
 using Architecture.Services.AssetProviding;
 using Architecture.Services.Factories;
 using Architecture.Services.Gameplay;
+using Architecture.Services.PersistentProgress;
 using Metric.Weapons;
 using PersistentProgress;
 using UI.Extensions;
@@ -16,6 +17,7 @@ namespace UI.Inventory.Merging {
         private IUIFactory _uiFactory;
         private IMetricProvider _metricProvider;
         private PlayerPointer _playerPointer;
+        private IPersistentProgressService _persistentProgress;
 
         public RectTransform Transform { get; private set; }
 
@@ -27,42 +29,52 @@ namespace UI.Inventory.Merging {
             MergeGrid mergeGrid,
             IUIFactory uiFactory,
             IMetricProvider metricProvider,
-            PlayerPointer playerPointer
+            PlayerPointer playerPointer,
+            IPersistentProgressService persistentProgressService
         ) {
+            _persistentProgress = persistentProgressService;
             _grid = mergeGrid;
             _uiFactory = uiFactory;
             _metricProvider = metricProvider;
             _playerPointer = playerPointer;
         }
 
-        public void Initialize(int[] lvls, Vector2[] positions) {
-            for (int i = 0; i < lvls.Length; i++) {
-                var mergeWeapon = _uiFactory
-                    .CreateMergeWeapon(lvls[i], _grid.FindByPosition(positions[i]), Transform, this)
-                    .GetComponent<MergeWeapon>();
-                _mergeWeapons.Add(mergeWeapon);
-            }
-        }
+        
         
         public void Read(IReadOnlyPlayerProgress playerProgress) {
             foreach (var weapon in _mergeWeapons) {
                 Destroy(weapon.gameObject);
             }
             _mergeWeapons.Clear();
-            
-            Initialize(playerProgress.InventoryWeapons, playerProgress.InventoryPositions);
+
+            var lvls = playerProgress.InventoryWeapons;
+            var cells = playerProgress.InventoryCells;
+            int pointer = 0;
+
+            for (int i = 0; i < cells.Length; i++) {
+                var mergeWeapon = _uiFactory
+                    .CreateMergeWeapon(lvls[i], _grid.MergeCells[cells[i]], Transform, this)
+                    .GetComponent<MergeWeapon>();
+                _mergeWeapons.Add(mergeWeapon);
+            }
         }
 
         public void Write(PlayerProgress playerProgress) {
             int[] weaponLvls = new int[_mergeWeapons.Count];
-            Vector2[] positions = new Vector2[_mergeWeapons.Count];
+            int[] cells = new int[_mergeWeapons.Count];
+            
             for (int i = 0; i < weaponLvls.Length; i++) {
                 weaponLvls[i] = _mergeWeapons[i].WeaponData.Level;
-                positions[i] = _mergeWeapons[i].Transform.anchoredPosition;
+                for (int j = 0; j < _grid.MergeCells.Length; j++) {
+                    if(_grid.MergeCells[j] != _mergeWeapons[i].AttachedCell) continue;
+
+                    cells[i] = j;
+                    break;
+                }
             }
 
             playerProgress.InventoryWeapons = weaponLvls;
-            playerProgress.InventoryPositions = positions;
+            playerProgress.InventoryCells = cells;
         }
 
         public void AddWeapon(WeaponData weaponData) {
@@ -77,6 +89,8 @@ namespace UI.Inventory.Merging {
                 _mergeWeapons.Add(weapon);
                 break;
             }
+            
+            _persistentProgress.Save();
         }
         
         public void OnWeaponDragged(MergeWeapon weapon, Vector2 position) {
@@ -119,6 +133,8 @@ namespace UI.Inventory.Merging {
                     break;
                 }
             }
+            
+            _persistentProgress.Save();
         }
 
         private MergeResult HandleMerge(MergeWeapon weapon, MergeWeapon other) {
@@ -134,8 +150,11 @@ namespace UI.Inventory.Merging {
 
             WeaponData nextWeapon = _metricProvider.WeaponData[other.WeaponData.Level + 1];
             other.Upgrade(nextWeapon);
-            _playerPointer.Player.WeaponHolder.SetWeapon(nextWeapon);
-            
+            var weaponHolder = _playerPointer.Player.WeaponHolder;
+            if (weaponHolder.WeaponData.Level < nextWeapon.Level) {
+                weaponHolder.SetWeapon(nextWeapon);    
+            }
+
             return true;
         }
     }

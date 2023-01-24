@@ -14,11 +14,9 @@ namespace UI.Inventory {
             _bank.Modified += UpdateUI;
         }
 
-        private void Start() {
-            UpdateUI();
-        }
-
+        private void Start() => UpdateUI();
         private void OnDestroy() => _bank.Modified -= UpdateUI;
+        
         private void UpdateUI() => _text.text = _bank.Amount.ToEconomicString();
     }
 }

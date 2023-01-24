@@ -4,11 +4,11 @@ using UnityEngine;
 namespace PersistentProgress {
     [Serializable]
     public class PlayerProgress: IReadOnlyPlayerProgress {
-        private int _chosenWeaponLevel = 0;
-        private int _maxWeaponLevel = 0;
-        private int[] _inventoryWeapons = Array.Empty<int>();
-        private Vector2[] _inventoryPositions = Array.Empty<Vector2>();
-        private long _bankAmount = 0;
+        [SerializeField] private int _chosenWeaponLevel = 0;
+        [SerializeField] private int _maxWeaponLevel = 0;
+        [SerializeField] private int[] _inventoryWeapons = Array.Empty<int>();
+        [SerializeField] private int[] _inventoryCells = Array.Empty<int>();
+        [SerializeField] private long _bankAmount = 0;
 
         public int ChosenWeaponLevel {
             get => _chosenWeaponLevel;
@@ -30,9 +30,9 @@ namespace PersistentProgress {
             set => _bankAmount = value;
         }
 
-        public Vector2[] InventoryPositions {
-            get => _inventoryPositions;
-            set => _inventoryPositions = value;
+        public int[] InventoryCells {
+            get => _inventoryCells;
+            set => _inventoryCells = value;
         }
     }
 }

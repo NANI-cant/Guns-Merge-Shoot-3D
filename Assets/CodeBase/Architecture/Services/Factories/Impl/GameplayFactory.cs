@@ -1,10 +1,12 @@
 ﻿using Architecture.Services.AssetProviding;
 using Architecture.Services.General;
+using Architecture.Services.PersistentProgress;
 using Gameplay.EnemyLogic;
 using Gameplay.HealthLogic;
 using Gameplay.PlayerLogic;
 using Gameplay.PlayerLogic.Weapons;
 using Metric;
+using PersistentProgress;
 using UnityEngine;
 
 namespace Architecture.Services.Factories.Impl {
@@ -14,6 +16,7 @@ namespace Architecture.Services.Factories.Impl {
         private readonly IMetricProvider _metricProvider;
         private readonly ITimeProvider _timeProvider;
         private readonly IRandomService _randomService;
+        private readonly IPersistentProgressService _persistentProgressService;
 
         private Player _player;
 
@@ -22,13 +25,15 @@ namespace Architecture.Services.Factories.Impl {
             IInstantiateProvider instantiateProvider,
             IMetricProvider metricProvider,
             ITimeProvider timeProvider,
-            IRandomService randomService
+            IRandomService randomService,
+            IPersistentProgressService persistentProgressService
         ) {
             _prefabProvider = prefabProvider;
             _instantiateProvider = instantiateProvider;
             _metricProvider = metricProvider;
             _timeProvider = timeProvider;
             _randomService = randomService;
+            _persistentProgressService = persistentProgressService;
         }
         
         public GameObject CreatePlayer(Vector3 position, Quaternion rotation) {
@@ -36,9 +41,11 @@ namespace Architecture.Services.Factories.Impl {
             var player = _instantiateProvider.Instantiate(_prefabProvider.Player, position, rotation);
 
             player.GetComponent<AutoAttacker>().Construct(metric.AttackRadius, _timeProvider, _randomService);
-            player.GetComponent<WeaponHolder>().Construct(_instantiateProvider);
+            player.GetComponent<WeaponHolder>().Construct(_instantiateProvider, _metricProvider);
             player.GetComponent<Health>().Construct(metric.MaxHealth);
-
+            
+            SubscribeToProgress(player);
+            
             _player = player.GetComponent<Player>();
             return player;
         }
@@ -53,6 +60,16 @@ namespace Architecture.Services.Factories.Impl {
             enemy.GetComponent<CharacterAnimator>().AttackSpeed = metric.AttackSpeed;
             
             return enemy;
+        }
+        
+        private void SubscribeToProgress(GameObject gameObject) {
+            foreach (var reader in gameObject.GetComponentsInChildren<IProgressReader>()) {
+                _persistentProgressService.AddReader(reader);
+            }
+            
+            foreach (var writer in gameObject.GetComponentsInChildren<IProgressWriter>()) {
+                _persistentProgressService.AddWriter(writer);
+            }
         }
     }
 }

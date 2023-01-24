@@ -32,11 +32,11 @@ namespace Architecture.StateMachine.States {
         }
         
         public override void Enter() {
-            _persistentProgressService.Load();
             _playerPointer.Player = _gameplayFactory
                 .CreatePlayer(_playerSpawnPoint.Position, _playerSpawnPoint.Rotation)
                 .GetComponent<Player>();
-            _playerPointer.Player.WeaponHolder.SetWeapon(_metricProvider.WeaponData[0]);
+            _persistentProgressService.Load();
+            
             _gameStateMachine.TranslateTo<CampState>();
         }
     }

@@ -1,5 +1,4 @@
 ﻿using Architecture.Services.Factories;
-using UI.Utils;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -17,7 +16,6 @@ namespace UI.Arsenal {
 
         private void Start() {
             _uiFactory.CreateArsenal(_weaponList);
-            _weaponList.GetComponent<AutoWidth>().Calculate();
         }
 
         private void CloseWindow() => gameObject.SetActive(false);

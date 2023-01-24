@@ -5,7 +5,7 @@ namespace PersistentProgress {
         public int ChosenWeaponLevel { get; }
         public int MaxWeaponLevel { get; }
         public int[] InventoryWeapons { get; }
-        public Vector2[] InventoryPositions { get; }
+        public int[] InventoryCells { get; }
         public long BankAmount { get; }
     }
 }
