@@ -34,6 +34,7 @@ namespace Metric.Weapons {
 #if UNITY_EDITOR
         private void OnValidate() {
             _dps = (1 + (float)_critChance/100f * (_critValue-1)) * _damage * _speed;
+            _startPrice = 100 * (long)Mathf.Pow(2, _level);
         }
 #endif
     }

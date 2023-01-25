@@ -13,17 +13,5 @@ MonoBehaviour:
   m_Name: Level2
   m_EditorClassIdentifier: 
   <Waves>k__BackingField:
-  - <EnemyDataset>k__BackingField:
-    - Enemy: 0
-      Count: 3
-    - Enemy: 1
-      Count: 3
-    - Enemy: 2
-      Count: 1
-  - <EnemyDataset>k__BackingField:
-    - Enemy: 0
-      Count: 3
-    - Enemy: 1
-      Count: 3
-    - Enemy: 2
-      Count: 1
+  - _availableEnemies: 00000000
+    _targetPower: 200

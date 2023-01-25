@@ -22,7 +22,7 @@ namespace Architecture.StateMachine.States {
         }
 
         public override void Enter() {
-            _enemySpawnService.SpawnWave(_levelProgress.WaveData.EnemyDataset);
+            _enemySpawnService.SpawnWave(_levelProgress.WaveData);
             _playerPointer.Player.StateMachine.TranslateTo<AttackState>();
 
             _enemySpawnService.Cleared += TranslateToRun;

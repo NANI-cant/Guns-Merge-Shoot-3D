@@ -3,6 +3,6 @@
 namespace Metric.Levels {
     [CreateAssetMenu(fileName = "LevelData", menuName = "Levels/Level Data")]
     public class LevelData: ScriptableObject {
-        [field:SerializeField] public WaveData[] Waves { get; private set; }
+        [field:SerializeField] public StandartWaveData[] Waves { get; private set; }
     }
 }

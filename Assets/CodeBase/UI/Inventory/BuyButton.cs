@@ -1,5 +1,4 @@
-﻿using System;
-using Architecture.Services.AssetProviding;
+﻿using Architecture.Services.AssetProviding;
 using Architecture.Services.Gameplay;
 using Gameplay.Economic;
 using Metric.Weapons;
@@ -12,7 +11,7 @@ using UnityEngine.UI;
 namespace UI.Inventory {
     [RequireComponent(typeof(RectTransform))]
     [RequireComponent(typeof(Button))]
-    public class BuyButton: MonoBehaviour, IProgressReader {
+    public class BuyButton: MonoBehaviour, IProgressReader, IProgressWriter {
         [SerializeField] private Image _image;
         [SerializeField] private TMP_Text _priceText;
 
@@ -21,6 +20,9 @@ namespace UI.Inventory {
         private MergeArea _mergeArea;
         private IMetricProvider _metricProvider;
         private PlayerPointer _playerPointer;
+        private int _buyCount;
+
+        private long Price => (long)(_weaponData.StartPrice * Mathf.Pow(1.2f, _buyCount));
 
         private void Awake() => _button = GetComponent<Button>();
 
@@ -38,11 +40,18 @@ namespace UI.Inventory {
         public void Read(IReadOnlyPlayerProgress playerProgress) {
             int targetLvl = Mathf.Max(playerProgress.MaxWeaponLevel - 2, 0); 
             _weaponData = _metricProvider.WeaponData[targetLvl];
+            _buyCount = playerProgress.WeaponBuyCount;
             UpdateUI();
         }
-        
+
+        public void Write(PlayerProgress playerProgress) {
+            playerProgress.WeaponBuyCount = _buyCount;
+        }
+
         private void UpdateData() {
+            var currentLvl = _weaponData != null ? _weaponData.Level : 0;
             int targetLvl = Mathf.Max(_playerPointer.Player.WeaponHolder.WeaponData.Level - 2, 0);
+            if (currentLvl != targetLvl) _buyCount = 0;
             _weaponData = _metricProvider.WeaponData[targetLvl];
             UpdateUI();
         }
@@ -51,11 +60,13 @@ namespace UI.Inventory {
             if(_weaponData == null) return;
             
             _image.sprite = _weaponData.Image;
-            _priceText.text = _weaponData.StartPrice.ToEconomicString();
+            _priceText.text = Price.ToEconomicString();
         }
 
         private void Buy() {
+            _buyCount++;
             _mergeArea.AddWeapon(_weaponData);
+            UpdateUI();
         }
     }
 }

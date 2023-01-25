@@ -23,20 +23,20 @@ namespace Architecture.Services.Gameplay {
         public EnemySpawnService(
             IGameplayFactory gameplayFactory,
             IEnemySpawnPoint[] enemySpawnPoints,
-            IRandomService randomService
+            IRandomService randomService,
+            IMetricProvider metricProvider
         ) {
             _gameplayFactory = gameplayFactory;
             _enemySpawnPoints = enemySpawnPoints;
             _randomService = randomService;
+            _metricProvider = metricProvider;
         }
         
-        public void SpawnWave(WaveEnemy[] waveEnemies) {
-            foreach (var waveEnemy in waveEnemies) {
-                for (int i = 0; i < waveEnemy.Count; i++) {
-                    var randomEnemySpawn = TakeSpawnPoint();
-                    var enemy = _gameplayFactory.CreateEnemy(waveEnemy.Enemy, randomEnemySpawn.Position, randomEnemySpawn.Rotation);
-                    Track(enemy.GetComponent<Health>());
-                }
+        public void SpawnWave(StandartWaveData waveData) {
+            foreach (var enemyId in waveData.GetEnemies(_randomService, _metricProvider)) {
+                var randomEnemySpawn = TakeSpawnPoint();
+                var enemy = _gameplayFactory.CreateEnemy(enemyId, randomEnemySpawn.Position, randomEnemySpawn.Rotation);
+                Track(enemy.GetComponent<Health>());
             }
         }
 

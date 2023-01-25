@@ -10,16 +10,16 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 51453f914dc7483384d0802c8ed9226d, type: 3}
-  m_Name: MMM24
+  m_Name: 3Blaster
   m_EditorClassIdentifier: 
-  _level: 4
-  _name: MMM24
-  _startPrice: 200
-  _image: {fileID: 21300000, guid: b678d80eb2b1e8345b5fee2fd3b8a6b8, type: 3}
-  _template: {fileID: 8120028024737547079, guid: b9955772203860d43b7bb0c74cbc5863, type: 3}
+  _level: 3
+  _name: Blaster
+  _startPrice: 800
+  _image: {fileID: 21300000, guid: 06e5cdf293c83b34e8fd4e6b335e8398, type: 3}
+  _template: {fileID: 6641846267022334940, guid: 5606300f69b0fad419a766b033eb471a, type: 3}
   _animatorController: {fileID: 22100000, guid: b944333344b029f40a27651f78e16f0c, type: 2}
-  _damage: 6
-  _speed: 3
+  _damage: 21
+  _speed: 3.42
   _critChance: 25
   _critValue: 1.5
-  _dps: 20.25
+  _dps: 80.7975

@@ -2,10 +2,10 @@
 
 namespace PersistentProgress {
     public interface IReadOnlyPlayerProgress {
-        public int ChosenWeaponLevel { get; }
-        public int MaxWeaponLevel { get; }
-        public int[] InventoryWeapons { get; }
-        public int[] InventoryCells { get; }
-        public long BankAmount { get; }
+        int MaxWeaponLevel { get; }
+        int[] InventoryWeapons { get; }
+        int[] InventoryCells { get; }
+        long BankAmount { get; }
+        int WeaponBuyCount { get; set; }
     }
 }

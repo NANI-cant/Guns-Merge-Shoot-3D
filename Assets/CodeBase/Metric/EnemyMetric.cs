@@ -8,14 +8,12 @@ namespace Metric {
         [field: SerializeField] public int Damage { get; private set; }
         [field: SerializeField] public float AttackRadius { get; private set; }
         [field: SerializeField] public float MaxHealth { get; private set; }
-
-        [Space]
-        [SerializeField] private float _coefficient;
+        [field: SerializeField] public float Power { get; private set; }
 
 #if UNITY_EDITOR
         private void OnValidate() {
-            _coefficient = MovementSpeed + AttackSpeed + Damage + MaxHealth + AttackRadius;
-            _coefficient /= 5f;
+            Power = MovementSpeed + AttackSpeed + Damage + MaxHealth;
+            Power /= 4f;
         }
 #endif
     }
