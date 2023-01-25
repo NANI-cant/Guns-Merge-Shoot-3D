@@ -2,15 +2,16 @@
 using System.Collections.Generic;
 using Architecture.Services.AssetProviding;
 using Architecture.Services.General;
-using Gameplay.EnemyLogic;
 using UnityEngine;
 
 namespace Metric.Levels {
     [Serializable]
-    public class StandartWaveData {
-        //[field: SerializeField] public WaveEnemy[] EnemyDataset { get; private set; }
+    public class WaveStage {
         [SerializeField] private EnemyId[] _availableEnemies;
         [SerializeField] private float _targetPower;
+        [SerializeField] private float _delay = 5f;
+
+        public float Delay => _delay;
 
         public EnemyId[] GetEnemies(IRandomService random, IMetricProvider metricProvider) {
             List<EnemyId> chosenEnemies = new List<EnemyId>();

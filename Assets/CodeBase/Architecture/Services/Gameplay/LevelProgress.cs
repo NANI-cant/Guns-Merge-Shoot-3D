@@ -10,7 +10,7 @@ namespace Architecture.Services.Gameplay {
         private int _levelNumber;
         private int _waveNumber;
 
-        public StandartWaveData WaveData => _levelData.Waves[_waveNumber];
+        public StandardWaveData WaveData => _levelData.Waves[_waveNumber];
         public int WaveCount => _levelData.Waves.Length;
         public bool IsLevelOver => _waveNumber == WaveCount;
 

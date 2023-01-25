@@ -12,6 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a2bc298c3da9406f907ac4552cb4d44b, type: 3}
   m_Name: Level1
   m_EditorClassIdentifier: 
-  <Waves>k__BackingField:
-  - _availableEnemies: 0000000001000000
-    _targetPower: 100
+  _waves:
+  - _stages:
+    - _availableEnemies: 0000000001000000
+      _targetPower: 50
+      _delay: 5
+    - _availableEnemies: 0000000000000000
+      _targetPower: 50
+      _delay: 5

@@ -49,8 +49,6 @@ namespace UI.Inventory.Merging {
 
             var lvls = playerProgress.InventoryWeapons;
             var cells = playerProgress.InventoryCells;
-            int pointer = 0;
-
             for (int i = 0; i < cells.Length; i++) {
                 var mergeWeapon = _uiFactory
                     .CreateMergeWeapon(lvls[i], _grid.MergeCells[cells[i]], Transform, this)
