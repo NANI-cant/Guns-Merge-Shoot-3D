@@ -1,6 +1,7 @@
 ﻿using Architecture.Services.AssetProviding.Impl;
 using Architecture.Services.Factories.Impl;
 using Architecture.Services.Gameplay;
+using Architecture.Services.Gameplay.Impl;
 using Architecture.StateMachine;
 using Gameplay.Setup.SpawnPoints;
 using Gameplay.Setup.SpawnPoints.Impl;
@@ -25,7 +26,7 @@ namespace Architecture.Bootstrappers {
             BindService<EnemySpawnService>();
             BindService<PlayerPointer>();
             
-            BindService<LevelProgress>();
+            BindService<LevelProgressService>();
         }
 
         private void BindPlayerSpawnPoint() {

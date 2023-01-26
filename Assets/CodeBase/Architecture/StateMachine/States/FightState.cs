@@ -1,4 +1,5 @@
 ﻿using Architecture.Services.Gameplay;
+using Architecture.Services.Gameplay.Impl;
 using Gameplay.PlayerLogic.StateMachine;
 using General.StateMachine;
 
@@ -7,29 +8,29 @@ namespace Architecture.StateMachine.States {
         private readonly GameStateMachine _gameStateMachine;
         private readonly EnemySpawnService _enemySpawnService;
         private readonly PlayerPointer _playerPointer;
-        private readonly LevelProgress _levelProgress;
+        private readonly ILevelProgressService _levelProgressService;
 
         public FightState(
             GameStateMachine gameStateMachine, 
             EnemySpawnService enemySpawnService,
             PlayerPointer playerPointer,
-            LevelProgress levelProgress
+            ILevelProgressService levelProgressService
         ) {
             _gameStateMachine = gameStateMachine;
             _enemySpawnService = enemySpawnService;
             _playerPointer = playerPointer;
-            _levelProgress = levelProgress;
+            _levelProgressService = levelProgressService;
         }
 
         public override void Enter() {
-            _enemySpawnService.SpawnWave(_levelProgress.WaveData);
+            _enemySpawnService.SpawnWave(_levelProgressService.WayPointData);
             _playerPointer.Player.StateMachine.TranslateTo<AttackState>();
 
             _enemySpawnService.Cleared += TranslateToRun;
         }
 
         public override void Exit() {
-            _levelProgress.NextWave();
+            _levelProgressService.NextPoint();
             _enemySpawnService.Cleared -= TranslateToRun;
         }
 

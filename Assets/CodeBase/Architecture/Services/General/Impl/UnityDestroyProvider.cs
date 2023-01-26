@@ -17,11 +17,11 @@ namespace Architecture.Services.General.Impl {
         }
         
         private void UnSubscribeFromProgress(GameObject gameObject) {
-            foreach (var reader in gameObject.GetComponentsInChildren<IProgressReader>()) {
+            foreach (var reader in gameObject.GetComponentsInChildren<IProgressReader>(true)) {
                 _persistentProgressService.RemoveReader(reader);
             }
             
-            foreach (var writer in gameObject.GetComponentsInChildren<IProgressWriter>()) {
+            foreach (var writer in gameObject.GetComponentsInChildren<IProgressWriter>(true)) {
                 _persistentProgressService.RemoveWriter(writer);
             }
         }

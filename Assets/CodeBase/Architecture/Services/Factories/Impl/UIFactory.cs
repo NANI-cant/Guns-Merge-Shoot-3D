@@ -1,12 +1,15 @@
 ﻿using System.Collections.Generic;
 using Architecture.Services.AssetProviding;
 using Architecture.Services.Gameplay;
+using Architecture.Services.Gameplay.Impl;
 using Architecture.Services.General;
 using Architecture.Services.PersistentProgress;
 using Gameplay.Economic;
 using PersistentProgress;
 using UI;
 using UI.Arsenal;
+using UI.Hud;
+using UI.Inventory;
 using UI.Inventory.Merging;
 using UnityEngine;
 
@@ -18,6 +21,7 @@ namespace Architecture.Services.Factories.Impl {
         private readonly PlayerPointer _playerPointer;
         private readonly Bank _bank;
         private readonly IPersistentProgressService _persistentProgressService;
+        private readonly ILevelProgressService _levelProgressService;
 
         public UIFactory(
             IUIProvider uiProvider,
@@ -25,7 +29,8 @@ namespace Architecture.Services.Factories.Impl {
             IMetricProvider metricProvider,
             PlayerPointer playerPointer,
             Bank bank,
-            IPersistentProgressService persistentProgressService
+            IPersistentProgressService persistentProgressService,
+            ILevelProgressService levelProgressService
         ) {
             _uiProvider = uiProvider;
             _instantiateProvider = instantiateProvider;
@@ -33,13 +38,14 @@ namespace Architecture.Services.Factories.Impl {
             _playerPointer = playerPointer;
             _bank = bank;
             _persistentProgressService = persistentProgressService;
+            _levelProgressService = levelProgressService;
         }
 
         public GameObject CreateCampUI() {
             var campUI = _instantiateProvider.Instantiate(_uiProvider.CampUI, Vector3.zero, Quaternion.identity);
             
-            campUI.GetComponent<CampUI>().Inventory.Construct(this, _metricProvider, _playerPointer, _bank, _persistentProgressService);
-            campUI.GetComponent<CampUI>().Arsenal.Construct(this);
+            campUI.GetComponentInChildren<Inventory>(true).Construct(this, _metricProvider, _playerPointer, _bank, _persistentProgressService);
+            campUI.GetComponentInChildren<Arsenal>(true).Construct(this);
             
             SubscribeToProgress(campUI);
             
@@ -52,6 +58,14 @@ namespace Architecture.Services.Factories.Impl {
             weapon.GetComponent<MergeWeapon>().Construct(_metricProvider.WeaponData[level], cell, mergeArea);
 
             return weapon;
+        }
+
+        public GameObject CreateHUD() {
+            var hudUI = _instantiateProvider.Instantiate(_uiProvider.HUD, Vector3.zero, Quaternion.identity);
+            
+            hudUI.GetComponentInChildren<LevelProgressView>(true).Construct(_levelProgressService, this);
+
+            return hudUI;
         }
 
         public GameObject[] CreateArsenal(Transform container) {
@@ -69,12 +83,23 @@ namespace Architecture.Services.Factories.Impl {
             return items.ToArray();
         }
 
+        public GameObject CreateWayPoint(Transform container, float anchor) {
+            var point = _instantiateProvider.Instantiate(_uiProvider.WayPoint, Vector3.zero, Quaternion.identity, container);
+            
+            var pointTransform = point.GetComponent<RectTransform>();
+            pointTransform.anchorMin = new Vector2(anchor, 0);
+            pointTransform.anchorMax = new Vector2(anchor, 1);
+            pointTransform.anchoredPosition = Vector2.zero;
+            
+            return point;
+        }
+
         private void SubscribeToProgress(GameObject gameObject) {
-            foreach (var reader in gameObject.GetComponentsInChildren<IProgressReader>()) {
+            foreach (var reader in gameObject.GetComponentsInChildren<IProgressReader>(true)) {
                 _persistentProgressService.AddReader(reader);
             }
             
-            foreach (var writer in gameObject.GetComponentsInChildren<IProgressWriter>()) {
+            foreach (var writer in gameObject.GetComponentsInChildren<IProgressWriter>(true)) {
                 _persistentProgressService.AddWriter(writer);
             }
         }

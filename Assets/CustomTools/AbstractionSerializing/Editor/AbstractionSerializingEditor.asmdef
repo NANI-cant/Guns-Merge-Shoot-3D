@@ -1,8 +1,8 @@
 {
-    "name": "Editor",
+    "name": "AbstractionSerializingEditor",
     "rootNamespace": "",
     "references": [
-        "GUID:76bdd5a8e9de4f944ba84e7bc4e51366"
+        "GUID:6b8c39d935372784b9d153db2404cdf0"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

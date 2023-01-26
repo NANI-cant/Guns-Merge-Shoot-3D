@@ -5,5 +5,7 @@ namespace Architecture.Services.AssetProviding {
         GameObject CampUI { get; }
         GameObject ArsenalItem { get; }
         GameObject MergeWeapon { get; }
+        GameObject HUD { get; }
+        GameObject WayPoint { get; }
     }
 }

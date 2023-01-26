@@ -11,9 +11,6 @@ namespace UI {
 
         public event Action FightButtonClicked;
 
-        public Arsenal.Arsenal Arsenal => _arsenal;
-        public Inventory.Inventory Inventory => _inventory;
-
         private void OnEnable() {
             _fightButton.onClick.AddListener(RaiseFightEvent);
             _arsenalButton.onClick.AddListener(HandleArsenalWindow);
@@ -27,9 +24,9 @@ namespace UI {
         private void Start() {
             _fightButton.gameObject.SetActive(true);
             _arsenalButton.gameObject.SetActive(true);
-            Inventory.gameObject.SetActive(true);
+            _inventory.gameObject.SetActive(true);
             
-            Arsenal.gameObject.SetActive(false);
+            _arsenal.gameObject.SetActive(false);
         }
 
         private void HandleArsenalWindow() => _arsenal.gameObject.SetActive(!_arsenal.gameObject.activeInHierarchy);

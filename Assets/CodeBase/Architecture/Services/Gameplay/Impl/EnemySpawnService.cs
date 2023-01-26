@@ -10,7 +10,7 @@ using Gameplay.Utils;
 using Metric;
 using Metric.Levels;
 
-namespace Architecture.Services.Gameplay {
+namespace Architecture.Services.Gameplay.Impl {
     public class EnemySpawnService {
         private readonly IGameplayFactory _gameplayFactory;
         private readonly IEnemySpawnPoint[] _enemySpawnPoints;
@@ -22,10 +22,13 @@ namespace Architecture.Services.Gameplay {
         private List<IEnemySpawnPoint> _availablePoints = new();
         private int _currentStage = 0;
         private Timer _nextStageTimer;
+        private int _remindedEnemies;
+        private int _allEnemies;
 
         public event Action Cleared;
+        public event Action ProgressModified;
 
-        public int RemindedEnemies { get; private set; } = 0;
+        public float WaveProgress => 1 - ((float)_remindedEnemies / _allEnemies);
 
         public EnemySpawnService(
             IGameplayFactory gameplayFactory,
@@ -41,17 +44,19 @@ namespace Architecture.Services.Gameplay {
             _schedulerFactory = schedulerFactory;
         }
 
-        public void SpawnWave(StandardWaveData waveData) {
+        public void SpawnWave(WayPointData wayPointData) {
             _currentStage = 0;
             _nextStageTimer?.Stop();
             List<EnemyId[]> stages = new List<EnemyId[]>();
             List<float> delays = new List<float>();
-            foreach (var stage in waveData.Stages) {
-                var enemiesOnStage = stage.GetEnemies(_randomService, _metricProvider);
-                RemindedEnemies = RemindedEnemies + enemiesOnStage.Length;
-                stages.Add(enemiesOnStage);
+            foreach (var stage in wayPointData.GetStages(_randomService, _metricProvider)) {
+                stages.Add(stage.Enemies);
                 delays.Add(stage.Delay);
+                
+                _allEnemies += stage.Enemies.Length;
             }
+
+            _remindedEnemies = _allEnemies;
             
             SpawnSequence(stages, delays);
         }
@@ -93,11 +98,12 @@ namespace Architecture.Services.Gameplay {
         private void Forget(Health health) {
             health.Died -= Forget;
             
-            RemindedEnemies--;
+            _remindedEnemies--;
             _remindedEnemiesOnStage--;
+            ProgressModified?.Invoke();
             
             if (_remindedEnemiesOnStage == 0) _nextStageTimer.Skip();
-            if (RemindedEnemies == 0) Cleared?.Invoke();
+            if (_remindedEnemies == 0) Cleared?.Invoke();
         }
     }
 }
