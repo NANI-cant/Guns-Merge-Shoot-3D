@@ -12,5 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 29f6dd8a9aa1423b95ebbe98cf20d5fc, type: 3}
   m_Name: Player
   m_EditorClassIdentifier: 
-  <AttackRadius>k__BackingField: 14
+  <AttackRadius>k__BackingField: 15.5
   <MaxHealth>k__BackingField: 100

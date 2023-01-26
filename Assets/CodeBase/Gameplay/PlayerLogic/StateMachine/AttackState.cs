@@ -5,7 +5,8 @@ namespace Gameplay.PlayerLogic.StateMachine {
         private readonly AutoAttacker _attacker;
         private readonly CharacterAnimator _animator;
 
-        public AttackState(AutoAttacker attacker,
+        public AttackState(
+            AutoAttacker attacker,
             CharacterAnimator animator
         ) {
             _attacker = attacker;
@@ -13,6 +14,7 @@ namespace Gameplay.PlayerLogic.StateMachine {
         }
         
         public override void Enter() {
+            _animator.PlayIdle();
             _attacker.TurnOn();
             _attacker.Attacked += PlayAnimation;
         }

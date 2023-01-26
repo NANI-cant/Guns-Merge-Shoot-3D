@@ -12,11 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a2bc298c3da9406f907ac4552cb4d44b, type: 3}
   m_Name: Level3
   m_EditorClassIdentifier: 
-  _wayPoints:
-  - _stages:
-    - _availableEnemies: 0000000001000000
-      _targetPower: 50
-      _delay: 5
-    - _availableEnemies: 0000000000000000
-      _targetPower: 50
-      _delay: 5
+  _availableEnemies: 000000000100000002000000
+  _stages:
+  - {fileID: 11400000, guid: 6506011938bd499419579c1bd06ea83a, type: 2}
+  - {fileID: 11400000, guid: 6506011938bd499419579c1bd06ea83a, type: 2}
+  - {fileID: 11400000, guid: 6506011938bd499419579c1bd06ea83a, type: 2}

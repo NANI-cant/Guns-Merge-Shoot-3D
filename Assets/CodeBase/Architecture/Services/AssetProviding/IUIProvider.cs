@@ -6,6 +6,6 @@ namespace Architecture.Services.AssetProviding {
         GameObject ArsenalItem { get; }
         GameObject MergeWeapon { get; }
         GameObject HUD { get; }
-        GameObject WayPoint { get; }
+        GameObject Stage { get; }
     }
 }

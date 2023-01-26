@@ -1,18 +1,19 @@
 ﻿using System;
 using Metric.Levels;
+using Metric.Levels.Stages;
 
 namespace Architecture.Services.Gameplay {
     public interface ILevelProgressService {
         event Action Modified;
         
-        WayPointData WayPointData { get; }
-        bool IsLevelOver { get; }
-        int PointsCount { get; }
+        StageData ActiveStage { get; }
+        StageData[] Stages { get; }
         float LevelProgress { get; }
-        float PointProgress { get; }
-        int CurrentPoint { get; }
-        void NextLevel();
-        void NextPoint();
+        bool IsLevelOver { get; }
+        
         void ResetLevel();
+        void NextLevel();
+        void NextStage();
+        void TranslateToNextStage(Action callback);
     }
 }

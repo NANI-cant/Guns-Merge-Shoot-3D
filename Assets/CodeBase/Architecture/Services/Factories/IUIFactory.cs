@@ -1,4 +1,5 @@
-﻿using UI.Inventory.Merging;
+﻿using Metric.Levels.Stages;
+using UI.Inventory.Merging;
 using UnityEngine;
 
 namespace Architecture.Services.Factories {
@@ -7,6 +8,6 @@ namespace Architecture.Services.Factories {
         GameObject CreateMergeWeapon(int level, MergeCell cell, Transform container, MergeArea mergeArea);
         GameObject CreateHUD();
         GameObject[] CreateArsenal(Transform container);
-        GameObject CreateWayPoint(Transform container, float anchor);
+        GameObject CreateStage(Transform container, float anchor, StageData trackedStage);
     }
 }

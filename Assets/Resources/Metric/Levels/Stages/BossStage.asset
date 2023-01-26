@@ -9,10 +9,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a2bc298c3da9406f907ac4552cb4d44b, type: 3}
-  m_Name: Level2
+  m_Script: {fileID: 11500000, guid: 9d0a04978342406c95465979d9bc4439, type: 3}
+  m_Name: BossStage
   m_EditorClassIdentifier: 
-  _availableEnemies: 00000000
-  _stages:
-  - {fileID: 11400000, guid: 6506011938bd499419579c1bd06ea83a, type: 2}
-  - {fileID: 11400000, guid: 6506011938bd499419579c1bd06ea83a, type: 2}
+  _image: {fileID: 21300000, guid: a3ced8f7044b9de4787602a9e9b20ea7, type: 3}

@@ -42,7 +42,7 @@ namespace Architecture.StateMachine.States {
             _levelProgressService.NextLevel();
             _persistentProgressService.Save();
             _campUI = _uiFactory.CreateCampUI().GetComponent<CampUI>();
-            _campUI.FightButtonClicked += TranslateToFight;
+            _campUI.FightButtonClicked += TranslateToTransition;
             _playerPointer.Player.StateMachine.TranslateTo<IdleState>();
 
             if (_hud != null) _destroyProvider.Destroy(_hud);
@@ -51,13 +51,13 @@ namespace Architecture.StateMachine.States {
         }
 
         public override void Exit() {
-            _campUI.FightButtonClicked -= TranslateToFight;
+            _campUI.FightButtonClicked -= TranslateToTransition;
             _hud = _uiFactory.CreateHUD();
             _destroyProvider.Destroy(_campUI.gameObject);   
         }
 
-        private void TranslateToFight() {
-            _gameStateMachine.TranslateTo<FightState>();
+        private void TranslateToTransition() {
+            _gameStateMachine.TranslateTo<TransitionState>();
         }
     }
 }

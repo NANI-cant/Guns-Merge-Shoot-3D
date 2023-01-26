@@ -8,6 +8,6 @@ namespace Architecture.Services.AssetProviding {
         WeaponData[] WeaponData { get; }
 
         EnemyMetric EnemyMetric(EnemyId enemyId);
-        LevelData LevelData(int number);
+        Level LevelData(int number);
     }
 }

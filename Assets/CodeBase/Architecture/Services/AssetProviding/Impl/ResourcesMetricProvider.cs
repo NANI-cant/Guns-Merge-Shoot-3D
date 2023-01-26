@@ -23,8 +23,8 @@ namespace Architecture.Services.AssetProviding.Impl {
             _sortedWeapons = _sortedWeapons.OrderBy(wd => wd.Level).ToArray();
         }
         
-        public LevelData LevelData(int number) {
-            var level = Resources.Load<LevelData>(LevelPath + number);
+        public Level LevelData(int number) {
+            var level = Resources.Load<Level>(LevelPath + number);
             if(level == null) throw new InvalidDataException($"Level {number} does not exist");
             return level;
         }

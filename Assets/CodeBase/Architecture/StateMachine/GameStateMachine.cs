@@ -21,7 +21,7 @@ namespace Architecture.StateMachine {
             IPlayerSpawnPoint playerSpawnPoint,
             IUIFactory uiFactory,
             IDestroyProvider destroyProvider,
-            EnemySpawnService enemySpawnService,
+            StageService stageService,
             PlayerPointer playerPointer,
             ILevelProgressService levelProgressService,
             IMetricProvider metricProvider, 
@@ -30,8 +30,8 @@ namespace Architecture.StateMachine {
             _states = new Dictionary<Type, State>() {
                 [typeof(InitializeState)] = new InitializeState(this, gameplayFactory, playerSpawnPoint, playerPointer, metricProvider, persistentProgressService),
                 [typeof(CampState)] = new CampState(this, uiFactory, destroyProvider, playerPointer, levelProgressService, persistentProgressService),       
-                [typeof(FightState)] = new FightState(this, enemySpawnService, playerPointer, levelProgressService),
-                [typeof(TransitionState)] = new TransitionState(this, levelProgressService),
+                [typeof(FightState)] = new FightState(this, stageService, playerPointer, levelProgressService),
+                [typeof(TransitionState)] = new TransitionState(this, levelProgressService, playerPointer),
                 [typeof(LoseState)] = new LoseState(),
             };
         }

@@ -23,7 +23,7 @@ namespace Architecture.Bootstrappers {
             
             BindService<ResourcesMetricProvider>();
 
-            BindService<EnemySpawnService>();
+            BindService<StageService>();
             BindService<PlayerPointer>();
             
             BindService<LevelProgressService>();

@@ -6,32 +6,32 @@ using General.StateMachine;
 namespace Architecture.StateMachine.States {
     public class FightState : State {
         private readonly GameStateMachine _gameStateMachine;
-        private readonly EnemySpawnService _enemySpawnService;
+        private readonly StageService _stageService;
         private readonly PlayerPointer _playerPointer;
         private readonly ILevelProgressService _levelProgressService;
 
         public FightState(
             GameStateMachine gameStateMachine, 
-            EnemySpawnService enemySpawnService,
+            StageService stageService,
             PlayerPointer playerPointer,
             ILevelProgressService levelProgressService
         ) {
             _gameStateMachine = gameStateMachine;
-            _enemySpawnService = enemySpawnService;
+            _stageService = stageService;
             _playerPointer = playerPointer;
             _levelProgressService = levelProgressService;
         }
 
         public override void Enter() {
-            _enemySpawnService.SpawnWave(_levelProgressService.WayPointData);
+            _stageService.SpawnStage(_levelProgressService.ActiveStage);
             _playerPointer.Player.StateMachine.TranslateTo<AttackState>();
 
-            _enemySpawnService.Cleared += TranslateToRun;
+            _stageService.Cleared += TranslateToRun;
         }
 
         public override void Exit() {
-            _levelProgressService.NextPoint();
-            _enemySpawnService.Cleared -= TranslateToRun;
+            _levelProgressService.NextStage();
+            _stageService.Cleared -= TranslateToRun;
         }
 
         private void TranslateToRun() {

@@ -18,7 +18,7 @@ namespace Gameplay.PlayerLogic.StateMachine {
             _states = new Dictionary<Type, State>() {
                 [typeof(IdleState)] = new IdleState(attacker, rotator, animator),
                 [typeof(AttackState)] = new AttackState(attacker, animator),
-                [typeof(RunState)] = new RunState(),
+                [typeof(RunState)] = new RunState(attacker, animator, rotator),
                 [typeof(DeathState)] = new DeathState(),
             };
         }

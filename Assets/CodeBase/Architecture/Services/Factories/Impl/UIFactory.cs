@@ -5,6 +5,7 @@ using Architecture.Services.Gameplay.Impl;
 using Architecture.Services.General;
 using Architecture.Services.PersistentProgress;
 using Gameplay.Economic;
+using Metric.Levels.Stages;
 using PersistentProgress;
 using UI;
 using UI.Arsenal;
@@ -83,15 +84,17 @@ namespace Architecture.Services.Factories.Impl {
             return items.ToArray();
         }
 
-        public GameObject CreateWayPoint(Transform container, float anchor) {
-            var point = _instantiateProvider.Instantiate(_uiProvider.WayPoint, Vector3.zero, Quaternion.identity, container);
+        public GameObject CreateStage(Transform container, float anchor, StageData trackedStage) {
+            var stage = _instantiateProvider.Instantiate(_uiProvider.Stage, Vector3.zero, Quaternion.identity, container);
             
-            var pointTransform = point.GetComponent<RectTransform>();
-            pointTransform.anchorMin = new Vector2(anchor, 0);
-            pointTransform.anchorMax = new Vector2(anchor, 1);
-            pointTransform.anchoredPosition = Vector2.zero;
+            stage.GetComponent<StageView>().Construct(trackedStage);
             
-            return point;
+            var stageTransform = stage.GetComponent<RectTransform>();
+            stageTransform.anchorMin = new Vector2(anchor, 0);
+            stageTransform.anchorMax = new Vector2(anchor, 1);
+            stageTransform.anchoredPosition = Vector2.zero;
+            
+            return stage;
         }
 
         private void SubscribeToProgress(GameObject gameObject) {
