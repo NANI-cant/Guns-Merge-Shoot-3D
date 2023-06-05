@@ -2,23 +2,23 @@
 using System.Collections;
 using Architecture.Services.AssetProviding;
 using Architecture.Services.General;
-using Metric.Levels;
+using Architecture.Services.PersistentProgress;
 using Metric.Levels.Stages;
+using PersistentProgress;
 using UnityEngine;
 
 namespace Architecture.Services.Gameplay.Impl {
-    public class LevelProgressService: ILevelProgressService {
+    public class LevelProgressService: ILevelProgressService, IProgressReader, IProgressWriter {
         private readonly IMetricProvider _metricProvider;
-        private readonly StageService _stageService;
         private readonly IRandomService _randomService;
         private readonly ICoroutineRunner _coroutineRunner;
         private readonly ITimeProvider _timeProvider;
-        
-        private int _levelNumber;
+
         private int _stageNumber;
 
         public event Action Modified;
 
+        public int LevelNumber { get; private set; }
         public StageData[] Stages { get; private set; }
         public float LevelProgress { get; private set; }
         public StageData ActiveStage => Stages[_stageNumber];
@@ -26,23 +26,24 @@ namespace Architecture.Services.Gameplay.Impl {
 
         public LevelProgressService(
             IMetricProvider metricProvider,
-            StageService stageService,
             IRandomService randomService,
             ICoroutineRunner coroutineRunner,
-            ITimeProvider timeProvider
+            ITimeProvider timeProvider,
+            IPersistentProgressService persistentProgressService
         ) {
             _metricProvider = metricProvider;
-            _stageService = stageService;
             _randomService = randomService;
             _coroutineRunner = coroutineRunner;
             _timeProvider = timeProvider;
+            persistentProgressService.AddWriter(this);
+            persistentProgressService.AddReader(this);
         }
 
         public void ResetLevel() {
-            var level = _metricProvider.LevelData(_levelNumber);
+            var level = _metricProvider.LevelData(LevelNumber);
             Stages = new StageData[level.Stages.Length];
             for (int i = 0; i < Stages.Length; i++) {
-                Stages[i] = level.Stages[i].GetStageData(level.AvailableEnemies, _levelNumber, _randomService, _metricProvider);
+                Stages[i] = level.Stages[i].GetStageData(level.AvailableEnemies, LevelNumber, _randomService, _metricProvider);
             }
             
             _stageNumber = 0;
@@ -50,12 +51,12 @@ namespace Architecture.Services.Gameplay.Impl {
         }
 
         public void NextLevel() {
-            _levelNumber++;
+            LevelNumber++;
             
-            var level = _metricProvider.LevelData(_levelNumber);
+            var level = _metricProvider.LevelData(LevelNumber);
             Stages = new StageData[level.Stages.Length];
             for (int i = 0; i < Stages.Length; i++) {
-                Stages[i] = level.Stages[i].GetStageData(level.AvailableEnemies, _levelNumber, _randomService, _metricProvider);
+                Stages[i] = level.Stages[i].GetStageData(level.AvailableEnemies, LevelNumber, _randomService, _metricProvider);
             }
             
             _stageNumber = 0;
@@ -75,6 +76,15 @@ namespace Architecture.Services.Gameplay.Impl {
                 Modified?.Invoke();
             }
             callback?.Invoke();
+        }
+
+        public void Read(IReadOnlyPlayerProgress playerProgress) {
+            LevelNumber = playerProgress.Level;
+            ResetLevel();
+        }
+
+        public void Write(PlayerProgress playerProgress) {
+            playerProgress.Level = LevelNumber;
         }
     }
 }

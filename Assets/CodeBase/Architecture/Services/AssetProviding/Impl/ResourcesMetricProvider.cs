@@ -11,11 +11,14 @@ namespace Architecture.Services.AssetProviding.Impl {
         private const string EnemiesFolderPath = "Metric/Enemies/";
         private const string LevelPath = "Metric/Levels/Level";
         private const string WeaponPath = "Metric/Weapons";
+        private const string DifficultPath = "Metric/Difficult";
 
         private readonly WeaponData[] _sortedWeapons;
 
         public PlayerMetric PlayerMetric => Resources.Load<PlayerMetric>(PlayerPath);
         public WeaponData[] WeaponData => _sortedWeapons;
+        public DifficultMetric Difficult => Resources.Load<DifficultMetric>(DifficultPath); 
+        
         public EnemyMetric EnemyMetric(EnemyId enemyId) => Resources.Load<EnemyMetric>(EnemiesFolderPath + enemyId);
 
         public ResourcesMetricProvider() {

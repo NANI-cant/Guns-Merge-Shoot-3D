@@ -15,6 +15,7 @@ namespace Architecture.Services.PersistentProgress.Impl {
             ISaveLoadService saveLoadService
         ) {
             _saveLoadService = saveLoadService;
+            _playerProgress = new PlayerProgress();
         }
 
         public void Save() {

@@ -18,8 +18,8 @@ MonoBehaviour:
   _image: {fileID: 21300000, guid: 868d7367ec028854c84405d33842313f, type: 3}
   _template: {fileID: 8468491188001739454, guid: 98a0775473c14c44d9f8f0e14983e366, type: 3}
   _animatorController: {fileID: 22100000, guid: efb86739541b6474f949e7afeb1dd0fa, type: 2}
-  _damage: 10
+  _damage: 1
   _speed: 1
-  _critChance: 25
-  _critValue: 1.5
-  _dps: 11.25
+  _critChance: 5
+  _critValue: 2
+  _dps: 1.05

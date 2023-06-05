@@ -1,4 +1,5 @@
 ﻿using Architecture.Services.AssetProviding;
+using Architecture.Services.Gameplay;
 using Architecture.Services.General;
 using Architecture.Services.PersistentProgress;
 using Gameplay.EnemyLogic;
@@ -17,6 +18,7 @@ namespace Architecture.Services.Factories.Impl {
         private readonly ITimeProvider _timeProvider;
         private readonly IRandomService _randomService;
         private readonly IPersistentProgressService _persistentProgressService;
+        private readonly ILevelProgressService _levelProgressService;
 
         private Player _player;
 
@@ -26,7 +28,8 @@ namespace Architecture.Services.Factories.Impl {
             IMetricProvider metricProvider,
             ITimeProvider timeProvider,
             IRandomService randomService,
-            IPersistentProgressService persistentProgressService
+            IPersistentProgressService persistentProgressService,
+            ILevelProgressService levelProgressService
         ) {
             _prefabProvider = prefabProvider;
             _instantiateProvider = instantiateProvider;
@@ -34,6 +37,7 @@ namespace Architecture.Services.Factories.Impl {
             _timeProvider = timeProvider;
             _randomService = randomService;
             _persistentProgressService = persistentProgressService;
+            _levelProgressService = levelProgressService;
         }
         
         public GameObject CreatePlayer(Vector3 position, Quaternion rotation) {
@@ -52,11 +56,23 @@ namespace Architecture.Services.Factories.Impl {
 
         public GameObject CreateEnemy(EnemyId enemyId, Vector3 position, Quaternion rotation) {
             var metric = _metricProvider.EnemyMetric(enemyId);
+            var difficult = _metricProvider.Difficult;
             var enemy = _instantiateProvider.Instantiate(_prefabProvider.Enemy(enemyId), position, rotation);
 
             enemy.GetComponent<Mover>().Construct(metric.MovementSpeed, metric.AttackRadius, _player.transform, _timeProvider);
-            enemy.GetComponent<Health>().Construct(metric.MaxHealth);
-            enemy.GetComponent<AutoAttacker>().Construct(1/metric.AttackSpeed, metric.AttackRadius, metric.Damage, _timeProvider, _randomService);
+            enemy.GetComponent<Health>()
+                .Construct(enemyId == EnemyId.Boss
+                    ? difficult.GetBossHealth(metric.MaxHealth, _levelProgressService.LevelNumber)
+                    : difficult.GetEnemyHealth(metric.MaxHealth, _levelProgressService.LevelNumber)
+                );
+
+            enemy.GetComponent<AutoAttacker>().Construct(
+                1/metric.AttackSpeed, 
+                metric.AttackRadius, 
+                difficult.GetEnemyDamage(metric.Damage, _levelProgressService.LevelNumber), 
+                _timeProvider, 
+                _randomService
+            );
             enemy.GetComponent<CharacterAnimator>().AttackSpeed = metric.AttackSpeed;
             
             return enemy;

@@ -9,6 +9,7 @@ namespace PersistentProgress {
         [SerializeField] private int[] _inventoryCells = Array.Empty<int>();
         [SerializeField] private long _bankAmount = 0;
         [SerializeField] private int _weaponBuyCount = 0;
+        [SerializeField] private int _level = 0; 
 
         public int MaxWeaponLevel {
             get => _maxWeaponLevel;
@@ -33,6 +34,11 @@ namespace PersistentProgress {
         public int WeaponBuyCount {
             get => _weaponBuyCount;
             set => _weaponBuyCount = value;
+        }
+
+        public int Level {
+            get => _level;
+            set => _level = value;
         }
     }
 }

@@ -39,7 +39,6 @@ namespace Architecture.StateMachine.States {
         }
         
         public override void Enter() {
-            _levelProgressService.NextLevel();
             _persistentProgressService.Save();
             _campUI = _uiFactory.CreateCampUI().GetComponent<CampUI>();
             _campUI.FightButtonClicked += TranslateToTransition;

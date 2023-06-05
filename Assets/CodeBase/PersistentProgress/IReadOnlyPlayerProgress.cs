@@ -6,6 +6,7 @@ namespace PersistentProgress {
         int[] InventoryWeapons { get; }
         int[] InventoryCells { get; }
         long BankAmount { get; }
-        int WeaponBuyCount { get; set; }
+        int WeaponBuyCount { get;}
+        int Level { get; }
     }
 }

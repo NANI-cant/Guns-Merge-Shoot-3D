@@ -1,6 +1,4 @@
-﻿using Architecture.Services.AssetProviding;
-using Architecture.Services.Factories;
-using Architecture.Services.Gameplay;
+﻿using Architecture.Services.Factories;
 using Architecture.Services.Gameplay.Impl;
 using Architecture.Services.PersistentProgress;
 using Gameplay.PlayerLogic;
@@ -13,7 +11,6 @@ namespace Architecture.StateMachine.States {
         private readonly IGameplayFactory _gameplayFactory;
         private readonly IPlayerSpawnPoint _playerSpawnPoint;
         private readonly PlayerPointer _playerPointer;
-        private readonly IMetricProvider _metricProvider;
         private readonly IPersistentProgressService _persistentProgressService;
 
         public InitializeState(
@@ -21,14 +18,12 @@ namespace Architecture.StateMachine.States {
             IGameplayFactory gameplayFactory,
             IPlayerSpawnPoint playerSpawnPoint,
             PlayerPointer playerPointer,
-            IMetricProvider metricProvider,
             IPersistentProgressService persistentProgressService
         ) {
             _gameStateMachine = gameStateMachine;
             _gameplayFactory = gameplayFactory;
             _playerSpawnPoint = playerSpawnPoint;
             _playerPointer = playerPointer;
-            _metricProvider = metricProvider;
             _persistentProgressService = persistentProgressService;
         }
         

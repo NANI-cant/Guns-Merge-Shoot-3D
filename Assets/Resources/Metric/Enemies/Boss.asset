@@ -12,9 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b0e08a8d048c486b970a57f32619e833, type: 3}
   m_Name: Boss
   m_EditorClassIdentifier: 
-  <MovementSpeed>k__BackingField: 0.5
-  <AttackSpeed>k__BackingField: 0.5
-  <Damage>k__BackingField: 20
-  <AttackRadius>k__BackingField: 3
-  <MaxHealth>k__BackingField: 200
-  <Power>k__BackingField: 55.25
+  _movementSpeed: 0.5
+  _attackSpeed: 1
+  _damage: 18
+  _attackRadius: 1
+  _maxHealth: 20
+  _power: 13

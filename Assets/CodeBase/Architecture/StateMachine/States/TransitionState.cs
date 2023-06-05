@@ -23,6 +23,7 @@ namespace Architecture.StateMachine.States {
             _playerPointer.Player.StateMachine.TranslateTo<RunState>();
             _levelProgressService.TranslateToNextStage(() => {
                 if (_levelProgressService.IsLevelOver) {
+                    _levelProgressService.NextLevel();
                     _gameStateMachine.TranslateTo<CampState>();
                 }
                 else {

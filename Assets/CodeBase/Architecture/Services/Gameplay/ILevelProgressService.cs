@@ -10,7 +10,8 @@ namespace Architecture.Services.Gameplay {
         StageData[] Stages { get; }
         float LevelProgress { get; }
         bool IsLevelOver { get; }
-        
+        int LevelNumber { get; }
+
         void ResetLevel();
         void NextLevel();
         void NextStage();
